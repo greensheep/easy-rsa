@@ -454,6 +454,10 @@ current CA keypair. If you intended to start a new CA, run init-pki first."
 
 	# Default CN only when not in global EASYRSA_BATCH mode:
 	[ $EASYRSA_BATCH ] && opts="$opts -batch" || export EASYRSA_REQ_CN="Easy-RSA CA"
+	
+	# Add passphrase to options if specified
+	[ $EASYRSA_CA_PASS ] && opts="$opts -passout pass:$EASYRSA_CA_PASS"
+	
 	# create the CA keypair:
 	"$EASYRSA_OPENSSL" req -new -newkey $EASYRSA_ALGO:"$EASYRSA_ALGO_PARAMS" \
 		-config "$EASYRSA_SSL_CONF" -keyout "$out_key" -out "$out_file" $opts || \
