@@ -632,6 +632,9 @@ $(display_dn req "$req_in")
 Failed to create temp extension file (bad permissions?) at:
 $EASYRSA_TEMP_FILE"
 
+	# Add passphrase to options if specified
+	[ $EASYRSA_CA_PASS ] && opts="$opts -passin pass:$EASYRSA_CA_PASS"
+
 	# sign request
 	"$EASYRSA_OPENSSL" ca -in "$req_in" -out "$crt_out" -config "$EASYRSA_SSL_CONF" \
 		-extfile "$EASYRSA_TEMP_FILE" -days $EASYRSA_CERT_EXPIRE -batch $opts \
